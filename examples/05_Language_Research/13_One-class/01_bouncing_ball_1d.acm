@@ -1,0 +1,26 @@
+
+// Example:  Bouncing Ball (1D)
+// Illustrates:
+//    - classes, and class parameters
+//    - switch statements, conditional statements
+//    - boolean expressions
+//    - continuous variables and derivatives
+//    - discrete assignment
+//    - continous assignment
+
+model Main(simulator) =
+initially
+  mode = "Fly", x = 1, x' = 0, x''= 0
+always
+  simulator.timeStep + = 0.01,
+  simulator.endTime+ = 5.0,
+  match mode with[
+    "Fly" ->
+      if x < 0&& x' < 0 then
+        mode + = "Bounce"
+      else
+        x'' = -9.8
+      
+  | "Bounce" ->
+      x' + = -x',
+      mode + = "Fly" ]

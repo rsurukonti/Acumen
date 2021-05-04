@@ -1,0 +1,32 @@
+model SpringMass(c,k,m,x0) = 
+initially 
+  x = x0 , x' = 0 , x'' = 0 , F = 0 , Fs = 0 ,
+  _3D = (Box center=(0,0,0) size=(0.1*m,0.1*m,0.1*m) color=(0,0,1) rotation=(0,0,0),
+         Cylinder center=(x0-0.5,0,0) radius= 0.01 length=1  color=(0,1,0) rotation=(0,0,3.1416/2))
+always
+
+  Fs= k*(x0-x) - c*x' ,
+  x''=(Fs - F)/m ,
+
+  _3D=(Box center=(x,0,0) size=(0.1*m,0.1*m,0.1*m) color=(0,0,1) rotation=(0,0,0),
+       Cylinder center=(0.5+(x-x0)/2-1,0,0) radius= 0.01 length=-1-(x-x0)  color=(0,1,0) rotation=(0,0,3.1416/2))
+ 
+
+
+model Main(simulator) =
+initially
+  system = create SpringMass(1,10,3,0),    
+  mode = "push",  t=0, t'=1, 
+  _3D=(Cylinder center=(-1,0,0) radius=0.01 length=1 color=(1,0,0) rotation=(3.1416/2,0,0))
+always
+  _3D=(Cylinder center=(-1,0,0) radius=0.01 length=1 color=(1,0,0) rotation=(3.1416/2,0,0)),  
+  t'=1,
+
+  match mode with [
+    "push" ->
+      system.F=10,
+      if t>=0.5 then
+        mode+ ="free_motion"
+      noelse
+  | "free_motion" ->
+      system.F=0 ]

@@ -1,0 +1,31 @@
+
+// One Event Example
+//
+// Author:  Adam Duracz
+// Note:    Run using Semantics -> Enclosure
+
+model Main(simulator) =
+initially 
+  x = 1, x' = -1,
+  mode = "q"
+always
+  match mode with [
+    "q" ->
+      if x == 0 then // Guard for event
+        x+ = 1,
+        mode+ = "q"
+      noelse, 
+      x' = -1 ],
+  simulator.endTime+ = 1.1, // Event happens at time 1
+  simulator.minLocalizationStep+ = 1.1,
+  simulator.minSolverStep+ = 1.1
+
+// Note:  It was detected that an event could have 
+//        happened at some point during the simulation.
+// Note:  The possibility of an event was detected, 
+//        but the solver could not prove that 
+//        the event *must* have happened. Thus, the 
+//        evolution of the system without an event 
+//        (below 0) is also enclosed.
+// Note:  Mode names, such as "q" in this model, can be
+//        chosen arbitrarily.

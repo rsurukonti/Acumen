@@ -1,0 +1,100 @@
+
+// Author: Jawad Masood
+//ID: A1
+//Jawad had created the first simulation case for the active driver assistance systems 
+//longitudinal function called Collision Imminent Braking. The simulation case describes 
+//the testing vehicle approaching from behind towards the reference stationary object 
+//(car/pedestrian). The simplest possible mathematical models were modeled using 
+//new version of Acumen and Acumen 3d e.g. the car was represented by a point mass 
+//without friction; the straight road was represented by a fixed rectangular box; the 
+//sensor was represented by the single variable which calculate the distance between testing 
+//vehicle and stationary vehicle; one dimensional force was applied in x-axis direction while 
+//all forces in remaining five dimensions (two translations and three rotations) 
+//were neglected; The deceleration of testing vehicle was modeled by applying braking 
+//force in negative x-axis direction; the activation of function was modeled when distance 
+//sensor detects the critical distance (< = 3m) between testing vehicle and the reference 
+//vehicle 
+//*****************Vehicle Mechanics************************************************//
+
+model VehicleMechanics(m,x0,g) = //(Point mass with gravity)
+initially 
+  x  =  x0 , 
+  x'  =  5 , 
+  x''  =  0 , 
+  F  =  0
+always
+  x'' = (F-m*g)/m 
+  
+//*********************ADAS********************************************// 
+model Control(F) = //(Hybrid controller Open Loop)
+initially
+  mode  =  "push" , 
+  t  =  0 , 
+  t'  =  0 
+always 
+  t' = 1 ,
+  match mode with [
+    "push" ->
+      F = 20 ,
+      if t>=1.5 then
+        mode="brake"
+      noelse
+  | "brake" ->
+         F = -10 ] 
+
+//**********************SIMULATOR*******************************************//
+model Main(simulator) = 
+initially 
+  system  =  create VehicleMechanics(5,0,0) ,    
+  box     =  create VehicleT((0,0,0),1,2,"car.obj") ,
+  target  =  create VehicleS((50,0,0),1,2,"car.obj") ,
+  environment  =  create Road() ,
+  controller1  =  create Control(0) ,
+  _3DView  =  () 
+always
+  box.p = (system.x,0,0) ,
+  system.F = controller1.F ,
+  _3DView + = ((system.x-10,0,5),(system.x,0,0.3)) ,
+  simulator.endTime+ = 6 
+  
+//**************************VISUALIZATION***************************************//
+model VehicleT (p,d,s,name) = 
+initially
+  _3D  =  () 
+always      
+  _3D = (Obj center=p size=1 color=(1,1,1) rotation=(0,0,d*pi) content=name)
+  
+model VehicleS(p,d,s,name) = 
+initially
+  _3D  =  () 
+always      
+  _3D = (Obj center=p size=1 color=(1,1,1) rotation=(0,0,d*pi) content=name)
+
+model Road() =
+initially
+  mode = "spawn",
+  _3D  = ()
+always
+  _3D = (Box center=(0,0,-0.9144/2) size=(1000,3.9624,0.1) color=(0.3,0.3,0.3) rotation=(0,0,0), // Straignt Single Standard Road
+         Box center=(0,3.9624/2,-0.93/2) size=(1000,0.15,0.11) color=(255,255,255) rotation=(0,0,0), // left road side line
+         Box center=(0,-3.9624/2,-0.93/2) size=(1000,0.15,0.1) color=(255,255,255) rotation=(0,0,0), // right road side line
+         Box center=(0,0,-0.90/2) size=(3,0.15,0.1) color=(255,255,255) rotation=(0,0,0)),
+  match mode with [
+    "spawn" ->
+      create Stripe(0, 33),
+      mode + = "persist"
+  | "persist" -> ] 
+
+model Stripe(xstart, stripesLeft) =
+initially
+  _3D = (Box center=(xstart,0,-0.90/2) size=(3,0.15,0.1) color=(255,255,255) rotation=(0,0,0)),
+  mode = "spawn"
+always
+  match mode with [
+    "spawn" ->
+      if stripesLeft > 0 then
+        create Stripe(xstart + 7.5, stripesLeft - 1),
+        mode + = "persist"
+      noelse
+  | "persist" -> ],
+  _3D = (Box center=(xstart,0,-0.90/2) size=(3,0.15,0.1) color=(255,255,255) rotation=(0,0,0)) // center lane

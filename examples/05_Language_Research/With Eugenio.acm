@@ -1,0 +1,18 @@
+
+// Example of Riccati equation
+// TODO: It would be nice to have one particular
+//       example where we care about the answer
+
+model Main(simulator) = 
+
+initially 
+
+  x   =  0 ,
+  x'  =  0 ,
+  t   =  0 ,
+  t'  =  1 
+always
+  t' = 1 ,
+  x' = 1 - t*x - sin(t)*x*x
+
+ 

@@ -1,0 +1,21 @@
+model iPhone (deviceID) =
+  initially
+    ax = 0,
+    ay = 0,
+    az = 0,
+    alpha = 0,
+    beta  = 0,
+    gamma = 0,
+    compassHeading = 0,
+	d = create Device(deviceID)
+  always
+    ax = d.ax,
+    ay = d.ay,
+    az = d.az,
+    alpha = d.alpha,
+    beta  = d.beta,
+    gamma = d.gamma,
+    compassHeading = d.compassHeading
+
+    
+  

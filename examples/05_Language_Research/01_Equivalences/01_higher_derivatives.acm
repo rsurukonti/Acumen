@@ -1,0 +1,14 @@
+
+// Currently, x and y do not yield the
+// same result.  This should not be the
+// case.
+
+model Main(simulator) =
+initially
+  x=2.0, x'=0, x''=0,
+  y=2.0, y'=0, z=0, z'=0
+always
+  x'' = -10*sin(x),
+  y'  = z,
+  z'  = -10*sin(y)
+

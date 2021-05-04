@@ -1,0 +1,27 @@
+// Two Tanks Example
+// Originally from 01_Enclosures/04_Zeno/07_Two_Tanks.acm
+//
+// Modified to do something interesting after the first event with the
+// CStore interpreters
+//
+// Authors:  Michal Konecny and Jan Duracz
+
+model Main(simulator)  =
+initially 
+  x1 = 1, x1' = 2,  
+  x2 = 1, x2' = -3,
+  mode = "Fill1" 
+always
+  match mode with [
+    "Fill1"  claim x1 >= 0&& x2 >= 0 -> 
+      if x2 <= 0 then mode+ = "Fill2" noelse, 
+      x1' = 2, 
+      x2' = -3
+  | "Fill2" claim x1 >= 0&& x2 >= 0  -> 
+      if x1 <= 0 then mode+ = "Fill1" noelse, 
+      x1' = -2, 
+      x2' = 1 ],
+  simulator.startTime+ = 0,
+  simulator.endTime+ = 2.0 
+
+// Note:  For this system, invariants do not suffice 

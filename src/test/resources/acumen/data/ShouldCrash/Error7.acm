@@ -1,0 +1,12 @@
+// accessing a field not of self or of self's children
+
+model Main(simulator) = 
+initially
+  a = create A(self), mode = "Bar"
+always
+ 
+
+model A(main) = 
+ initially 
+always
+main.mode + = "Foo"

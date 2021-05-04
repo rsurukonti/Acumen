@@ -1,0 +1,23 @@
+
+// Negative exponential with thin initial condition
+//
+// Author:  JD
+//
+// Please run this with "Semantics -> Enclosures"
+//  and with "Contraction" checked. 
+
+model Main(simulator) = 
+initially 
+  x  =  [-1.0..1.0]  , 
+  x'  =  0 ,
+  mode  =  ""
+always
+  match mode with [
+    "" ->      
+      x' = -x ],
+  simulator.endTime + = 30 ,
+  simulator.minSolverStep + = 0.1 ,
+  simulator.minComputationImprovement + = 0.1 ,
+  simulator.minTimeStep + = 0.1 ,
+  simulator.maxTimeStep + = 0.2
+

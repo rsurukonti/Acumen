@@ -1,0 +1,5 @@
+// model A is defined twice
+
+model A() = initially
+model Main(s) = initially
+model A() = initially

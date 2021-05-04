@@ -1,0 +1,36 @@
+// Day/Night Heater, If Based Mixed Assignment example
+//
+// Auhor: Adam Duracz
+
+model Main(simulator) =
+initially
+  x = 10, x' = 10,
+  time = 0, time' = 1,
+  heating = "on", 
+  period  = "day" 
+always
+  // clock
+  time' = 1,
+  if time > 12&& time <= 24 then
+    period+ = "night"
+  noelse,
+  if time > 24 then
+    time+ = 0,
+    period+ = "day" 
+  noelse,
+  // heater
+  if period == "day"&& heating == "on" then
+    if x > 23 then
+      heating+ = "off"
+    noelse,
+    x' = 10
+  else(
+    if x < 19&& period == "day" then
+      heating+ = "on"
+    noelse,
+    x' = -5-x),
+  simulator.endTime+ = 48
+
+// Note: In this example, continuous and discrete assingments 
+//       have been intermixed, making it possible to re-use
+//       the guards of their enclosing if statement, yielding 

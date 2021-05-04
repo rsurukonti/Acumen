@@ -1,0 +1,30 @@
+
+// The classic bouncing ball example 
+// with proper zero crossing
+//
+// Author:  WT, based on model by MK and JD
+//
+// Note:  Run this with Semantics -> Enclosure
+// Note:  Using constraints to cut out impossible
+//        trajectories
+
+model Main(simulator) = 
+initially 
+  mode  =  "Fly" , 
+  x    =  5 ,    
+  x'   =  0 , 
+  x''  =  0 
+always
+  match mode with [
+    "Fly" ->
+      claim x >= 0, // Ball never pierces floor
+      if x == 0 && x' <= 0 then
+        x' + = -0.5*x' ,
+        mode + = "Fly" 
+      noelse ,
+      x'' = -10 ],
+  simulator.endTime + = 4.5 ,
+  simulator.minSolverStep + = 0.01 ,
+  simulator.minLocalizationStep + = 0.01 ,
+  simulator.minComputationImprovement + = 0.001
+ 

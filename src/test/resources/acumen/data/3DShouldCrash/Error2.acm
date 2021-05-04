@@ -1,0 +1,4 @@
+// The first element of _3D should be a string or integer
+model Main(simulator) =
+ initially
+  _3D = (Flower)

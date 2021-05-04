@@ -1,0 +1,2 @@
+// not an object id
+model Main(simulator) =  initially always move simulator 1

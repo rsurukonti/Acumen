@@ -1,0 +1,46 @@
+
+// A very basic communication channel
+
+model Channel_RL (Vs,R,L,Id) = 
+initially
+  Id' = 0
+always
+  Id' = (Vs-Id*R) / L
+
+model Source (f) = 
+initially
+  t = 0 , t' = 1 ,
+  Vs = -5 ,
+  signal  =  0
+always
+  if t>= 1/f then
+    match signal with [
+      0 ->
+        signal + = 1 ,
+        Vs + = 5 ,
+        t + = 0
+    | 1 ->
+        signal + = 0 ,
+        Vs + = -5 ,
+        t + = 0 ]
+  else
+    t' = 1
+model Destination () = 
+initially
+  sensor  = 0 ,
+  meaning = 0
+always
+  if sensor > 0.5 then
+    meaning = 1 noelse ,
+  if sensor < -0.5 then
+    meaning = 0 noelse 
+
+model Main(simulator) = 
+initially
+  source      =  create Source (2.5) ,
+  channel     =  create Channel_RL (0,1,1,0) ,
+  destination =  create Destination()
+always
+  channel.Vs = source.Vs ,
+  destination.sensor = channel.Id 
+ 

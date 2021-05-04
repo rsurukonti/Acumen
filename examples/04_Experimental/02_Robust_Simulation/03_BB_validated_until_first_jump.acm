@@ -1,0 +1,29 @@
+
+// The classic bouncing ball example 
+// with proper zero crossing
+//
+// Author:  WT, based on model by MK and JD
+//
+// Note:  Run this with Semantics -> Enclosure
+// Note:  Reduced end time to stop at first bounce
+// Note:  New, artificially dumbed down step sizes
+
+model Main(simulator) = 
+initially 
+  mode  =  "Fly" , 
+  x    =  5 ,    
+  x'   =  0 , 
+  x''  =  0 
+always
+  match mode with [
+    "Fly" ->
+      if x == 0 && x' <= 0 then
+        x' + = -0.5*x' ,
+        mode + = "Fly" 
+      noelse ,
+      x'' = -10 ],
+  simulator.endTime + = 1 , // Changed from 2
+  simulator.minSolverStep + = 0.01 ,              // New
+  simulator.minLocalizationStep + = 0.01 ,        // New
+  simulator.minComputationImprovement + = 0.001   // New
+ 

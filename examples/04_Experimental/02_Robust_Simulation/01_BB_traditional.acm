@@ -1,0 +1,23 @@
+
+// The classic bouncing ball example done
+// the traditional way
+//
+// Author:  WT, based on model by MK and JD
+//
+// Note:  Run this with Semantics -> Purely Functional
+
+model Main(simulator) = 
+initially 
+  mode  =  "Fly" , 
+  x    =  5 ,    
+  x'   =  0 , 
+  x''  =  0 
+always
+  match mode with [
+    "Fly" ->
+      if x <= 0 && x' <= 0 then // Note the redundant check!
+        x' + = -0.5*x' ,
+        mode + = "Fly" 
+      noelse ,
+      x'' = -10 ],
+  simulator.endTime + = 4.5 

@@ -1,0 +1,5 @@
+model Main (simulator) = 
+initially
+  _3D = (Text center= (-2.2,0,0) size= 1 color= yellow rotation=(0,0,0) content= "Acumen3D")       
+ 
+	

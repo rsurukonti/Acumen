@@ -1,0 +1,29 @@
+
+// Example:  Bouncing Ball (1D)
+// with claim
+// based on .../one-model/bouncing_ball_1d.acm =
+// Illustrates:
+//    - modeles, and class parameters =
+//    - match statements with [, conditional statements
+//    - boolean expressions
+//    - continuous variables and derivatives
+//    - discrete assignment
+//    - continous assignment
+
+model Main(simulator) =
+initially
+  mode = "Fly", x = 1, x' = 0, x'' = 0
+always
+  simulator.timeStep+ = 0.01,
+  simulator.endTime+ = 5.0,
+  claim x >= 0,
+  match mode with [
+    "Fly" ->
+      if x <= 0 && x' < 0 then
+        mode+ = "Bounce"
+      else
+        x'' = -9.8      
+  | "Bounce" ->
+      x'+ = -x',
+      mode+ = "Fly" ]
+

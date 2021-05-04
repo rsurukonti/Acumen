@@ -1,0 +1,15 @@
+Acumen Scala (or Acumen S or Acumen) is software developed by Walid
+Taha and collaborators (see file AUTHORS in the software release).
+
+Copyright (©) 2010-2014, Rice University
+
+Copyright (©) 2010-2014, Acumen Individual Contributors (AIC)
+
+Please see the file LICENSE-Rice and LICENSE-AIC for details.
+
+The models in the _3D directory are under their own license.  See the
+README and license files for that directory for details.
+
+Some of the examples may be under their own license.  Please contact
+the authors names in the example or Walid Taha at maroneal@gmail.com
+for for licensing information.

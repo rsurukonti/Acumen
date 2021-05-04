@@ -1,0 +1,5 @@
+// Example to test sum statement without filter.
+model Main(_)
+  = initially n  =  0 always
+	n = sum 1 for i in 1:3 // no filter ~ if true
+  

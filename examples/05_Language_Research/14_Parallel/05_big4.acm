@@ -1,0 +1,20 @@
+model Leaf() = 
+initially 
+  x  =  1 
+always
+  x = sum i*i for i in 1:100 if true
+
+
+model Main(simulator) = 
+initially
+  mode  =  "Init"
+always
+  match mode with [
+    "Init" ->
+      simulator.timeStep + = 1 ,
+      simulator.endTime + = 100 ,
+      foreach i in 1:100 do
+        create Leaf(),
+      mode + = "Idle"
+  | "Idle" -> ]
+ 

@@ -1,0 +1,3 @@
+// Name resolution fails
+model Main(simu) = initially  c = create A(1) always 
+model A(x) = initially always y = 2

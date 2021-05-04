@@ -1,0 +1,11 @@
+// Hypothesis statement use example
+//
+// Author: Adam Duracz
+
+model Main(simulator) = 
+initially 
+  x  =  1 , x'  =  0 , x''  =  -1 
+always
+  x'' = -x ,
+  hypothesis "The sine function is bounded" 
+             -1.0 <= x && x <= 1.0

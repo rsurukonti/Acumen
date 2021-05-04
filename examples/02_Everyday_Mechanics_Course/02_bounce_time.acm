@@ -1,0 +1,30 @@
+
+model Main (simulator)  =
+  initially  
+    x   = 10, 
+    x'  = -1,     
+    y   = 10, 
+    y'  = 0,   
+    y'' = -1,
+    _3D = ()
+  always
+  
+  x' = -1,
+  
+  y'' =  -1,
+  if y<0 && y'<0 then y'+ = -0.5*y' noelse,
+  
+      
+  _3D =(Text   center=(-2,0,-2)   size=0.75 color=blue content="x'=1",
+        Text   center=(-2,0,-3)   size=0.75 color=blue content="x''=0",
+        Box    center=(-1,0,-1)   size=(0.5,0.5,0.1) color=blue,
+        Sphere center=(-1,0,x/5)  size=0.25 color=blue,
+        Text   center=( 0,0,-2)   size=0.75 color=red content=format("y'=%.1f",y'*10),
+        Text   center=( 0,0,-3)   size=0.75 color=red content="y''=1",
+        Box    center=( 1,0,-1)   size=(0.5,0.5,0.1) color=red,
+        Sphere center=( 1,0,y/5)  size=0.25 color=red)
+
+/* Exercise:
+ *  1) Make the red one bounce on the red platform
+ *  2) Make the blue ball follow the red ball speed and height
+ */
